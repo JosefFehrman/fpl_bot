@@ -1,0 +1,6 @@
+[server]
+headless = true
+
+[runner]
+# Fix: Add root to Python path so `streamlit_app` is importable
+allowRunOnSave = true
