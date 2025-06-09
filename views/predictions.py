@@ -53,41 +53,40 @@ def render():
     else:
         st.info("No players selected yet.")
 
-
-    # -- optional: Show player value --
-    st.divider()
-    st.subheader("Player Value Analysis")
-
-    min_points = st.slider("Minimum Points", min_value=0, max_value=int(players["total_points"].max()), value=50)
-    select_position = st.selectbox("Select Position", options=["All"] + list(POSITION_MAP.values()))
-
-    filtered = players[players["total_points"] >= min_points]
-    if select_position != "All":
-        filtered = filtered[filtered["position"] == select_position]
-
-    top_value = filtered.sort_values(by="value_per_point", ascending=False).head(10)
-    top_value["value_per_point"] = top_value["value_per_point"].round(2)
-
-    st.dataframe(top_value[["full_name", "position", "now_cost", "total_points", "value_per_point"]])
-    st.info("Player value is calculated as cost per point. Lower value indicates better value for money.")
+    # # -- optional: Show player value --
+    # st.divider()
+    # st.subheader("Player Value Analysis")
+    #
+    # min_points = st.slider("Minimum Points", min_value=0, max_value=int(players["total_points"].max()), value=50)
+    # select_position = st.selectbox("Select Position", options=["All"] + list(POSITION_MAP.values()))
+    #
+    # filtered = players[players["total_points"] >= min_points]
+    # if select_position != "All":
+    #     filtered = filtered[filtered["position"] == select_position]
+    #
+    # top_value = filtered.sort_values(by="value_per_point", ascending=False).head(10)
+    # top_value["value_per_point"] = top_value["value_per_point"].round(2)
+    #
+    # st.dataframe(top_value[["full_name", "position", "now_cost", "total_points", "value_per_point"]])
+    # st.info("Player value is calculated as cost per point. Lower value indicates better value for money.")
 
     # -- optional: Show optimal team --
-    st.divider()
-    st.subheader("Auto-Pick: Optimal 15-man Team (Value-Based)")
-
-    optimal_team = select_optimal_team(players)
-    team_cost = optimal_team["now_cost"].sum()
-    team_points = optimal_team["total_points"].sum()
-
-    st.markdown(f"**Total Cost**: £{team_cost / 10:.1f}M")
-    st.markdown(f"**Total Points**: {team_points} pts")
-
-    st.dataframe(optimal_team[["full_name", "position", "now_cost", "total_points", "value_per_point"]])
+    # st.divider()
+    # st.subheader("Auto-Pick: Optimal 15-man Team (Value-Based)")
+    #
+    # optimal_team = select_optimal_team(players)
+    # team_cost = optimal_team["now_cost"].sum()
+    # team_points = optimal_team["total_points"].sum()
+    #
+    # st.markdown(f"**Total Cost**: £{team_cost / 10:.1f}M")
+    # st.markdown(f"**Total Points**: {team_points} pts")
+    #
+    # st.dataframe(optimal_team[["full_name", "position", "now_cost", "total_points", "value_per_point"]])
 
     # ---- Auto-Pick Optimal Team via PuLP ----
     # ---- optional: Show optimal team baset on excpeted points ----
     st.divider()
-    st.subheader("🤖 Auto-Pick Optimal 15-man Team (LP Solver)")
+    st.subheader("baset on budet of 100 mil what is most bang for the buck using target (total_points/cost)")
 
     optimal_team = select_optimal_team(players)
     cost = optimal_team["now_cost"].sum()
