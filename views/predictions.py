@@ -25,7 +25,7 @@ def render():
 
     players = players.sort_values(by="total_points", ascending=False)
 
-    players = predict_expected_points(players)
+    #players = predict_expected_points(players)
 
     # Select players
     selected_players = st.multiselect(
@@ -49,7 +49,7 @@ def render():
     # Show selected players
     if not selected_df.empty:
         st.subheader("Selected Players")
-        st.dataframe(selected_df[["full_name", "now_cost", "total_points", "minutes", "value_per_point", "position", "expected_points"]])
+        st.dataframe(selected_df[["full_name", "now_cost", "total_points", "minutes", "value_per_point", "position"]])
     else:
         st.info("No players selected yet.")
 
@@ -68,7 +68,7 @@ def render():
     top_value = filtered.sort_values(by="value_per_point", ascending=False).head(10)
     top_value["value_per_point"] = top_value["value_per_point"].round(2)
 
-    st.dataframe(top_value[["full_name", "position", "now_cost", "total_points", "value_per_point", "expected_points"]])
+    st.dataframe(top_value[["full_name", "position", "now_cost", "total_points", "value_per_point"]])
     st.info("Player value is calculated as cost per point. Lower value indicates better value for money.")
 
     # -- optional: Show optimal team --
