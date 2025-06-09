@@ -1,6 +1,6 @@
 import streamlit as st
-from . import sidebar
-from .views import home, stats, predictions
+from streamlit_app import sidebar
+from streamlit_app.views import home, stats, predictions
 
 st.set_page_config(page_title="Fantasy Fehrman Premier League AI Bot", layout="wide")
 page = sidebar.render_sidebar()
