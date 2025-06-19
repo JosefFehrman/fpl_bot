@@ -1,8 +1,9 @@
+import joblib
 import streamlit as st
 import pandas as pd
 from src.data_fetcher import get_fpl_data
 from src.optimizer import select_optimal_team
-from src.model import predict_expected_points
+#from src.model import predict_expected_points
 
 
 TOTAL_BUDGET = 1000  # in tenths of millions, i.e. £100.0M
@@ -102,7 +103,19 @@ def render():
             value_per_point=lambda df: (df["total_points"] / df["now_cost"]).round(2)
         )
     )
+    #### preccit form the local trrain model
 
+
+    st.header("📈 Predict Player Points (This Gameweek)")
+
+    model, features = joblib.load("models/week_model.pkl")
+    df = pd.read_csv("data/processed/player_gameweeks.csv")
+
+    features = ["minutes", "opponent_team", "was_home", "transfers_in", "goals_scored", "assists"]
+    X = df[features]
+    df["predicted_points"] = model.predict(X)
+
+    st.dataframe(df[["name", "round", "total_points", "predicted_points"]])
 
 
 
